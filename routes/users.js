@@ -2,6 +2,11 @@ const
   express = require('express'),
   userRouter = express.Router()
 
+  userRouter.route('/home')
+    .get((req, res) =>  {
+      res.render('home')
+    })
+
 userRouter.route('/login')
   .get((req, res) =>{
     console.log("Login routee");
