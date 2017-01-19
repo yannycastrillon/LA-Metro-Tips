@@ -14,6 +14,11 @@ userRouter.route('/signup')
     res.render('signup')
   })
 
+userRouter.route('/home')
+  .get((req, res) =>  {
+    res.render('home')
+  })
+
 // userRouter.get('/profile', isLoggedIn, (req, res) => {
 //   //
 // })
