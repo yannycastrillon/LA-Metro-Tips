@@ -1,6 +1,6 @@
 const
   mongoose = require("mongoose"),
-  bycrypt = require("bycrypt-nodejs"),
+  bycrypt = require("bcrypt-nodejs"),
   Schema = mongoose.Schema,
 
   // Build up the schema of the model

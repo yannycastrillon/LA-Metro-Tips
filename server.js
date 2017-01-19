@@ -7,29 +7,42 @@ const
   logger = require('morgan'),
   bodyParser = require('body-parser'),
   flash = require('connect-flash'),
+  cookieParser = require('cookie-parser'),
   passport = require('passport'),
   session = require('express-session'),
+  MongoDBStore = require('connect-mongodb-session')(session),
 
   userRoutes = require('./routes/users.js'),
   passportConfig = require('./config/passport.js')
 
-
-  PORT = 3000
+  // Connection configuration.
+  PORT = process.env.PORT || 3000,
+  mongoConnectionString = process.env.MONGODB_URL || 'mongodb://localhost/la-metro-tips'
 
 // Connection to mongodb
-mongoose.connect("mongodb://localhost:la-metro-tips", (err)=>{
+mongoose.connect(mongoConnectionString, (err)=>{
   console.log(err || "Connected to mongodb (la-metro-tips)");
 })
 
 // middleware
 app.use(logger('dev'))
+app.use(cookieParser())
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.json())
 app.use(flash())
 
+// Store session information as a 'sessions' collection in Mongo
+const
+  store = new MongoDBStore({
+  uri: mongoConnectionString,
+  collection: 'sessions'
+});
 
 
 //ejs config
 app.set('view engine', 'ejs')
 app.use(ejsLayouts)
+
 // session + passport
 app.use(session({
     secret: "la-metro-tips-secret",

@@ -10,20 +10,20 @@ userRouter.route('/login')
     // res.json({message:'login'})
     res.render('login')
   })
-  .post(passport.authenticate('local-login'),{
+  .post(passport.authenticate('local-login',{
     successRedirect:'/home',
     failureRedirect:'/login'
-  })
+  }))
 
 
 userRouter.route('/signup')
   .get((req, res) =>  {
     res.render('signup',{message:req.flash('Signup Message')})
   })
-  .post(passport.authenticate('local-signup'),{
+  .post(passport.authenticate('local-signup',{
     successRedirect:'/home',
     failureRedirect:'/signup'
-  })
+  }))
 
 
 userRouter.get('/logout', (req, res) => {
