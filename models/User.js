@@ -13,7 +13,7 @@ const
   })
 
 
-// Creates a hash with a SALT password encrypted
+// Creates a hash with a SALT encrypted password using bcrypt
 userSchema.methods.generateHash = function(password) {
   return bcrypt.hashSync(password,bycrypt.genSaltSync(10))
 }
