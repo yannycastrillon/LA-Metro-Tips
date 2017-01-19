@@ -5,6 +5,11 @@ const
   passport = require('passport'),
   userRouter = express.Router()
 
+  userRouter.route('/home')
+    .get((req, res) =>  {
+      res.render('home')
+    })
+
 userRouter.route('/login')
   .get((req, res) =>{
     // res.json({message:'login'})
