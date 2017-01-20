@@ -3,7 +3,6 @@
 const
   express = require('express'),
   passport = require('passport'),
-  request = require('request'),
   userRouter = express.Router()
 
   userRouter.route('/home')
