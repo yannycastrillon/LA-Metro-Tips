@@ -7,7 +7,7 @@ const
 
   userRouter.route('/home')
     .get((req, res) =>  {
-      res.render('home')
+      res.redirect('/')
     })
 
 userRouter.route('/login')

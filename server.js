@@ -13,7 +13,8 @@ const
   MongoDBStore = require('connect-mongodb-session')(session),
 
   userRoutes = require('./routes/users.js'),
-  passportConfig = require('./config/passport.js')
+  passportConfig = require('./config/passport.js'),
+  metro = require('./factories/metro.js')
 
   // Connection configuration.
   PORT = process.env.PORT || 3000,
@@ -64,7 +65,18 @@ app.use((req, res, next) => {
 
 // root route
 app.get('/', (req, res) => {
-  res.json({message: "This is the root route..."})
+  // res.json({message: "This is the root route..."})
+  metro.getMetroRoutes()
+    .then((routes) => {
+      res.render('home', {routes})
+    })
+})
+
+app.get('/routes/:id', (req, res) => {
+  metro.getMetroRoute(req.params.id)
+    .then((route) => req.user ? getAssociatedPosts(route) : route)
+    .then((data) => { res.json(data) })
+    .catch((err) => console.log(err))
 })
 
 app.use('/',userRoutes)
