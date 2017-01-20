@@ -13,6 +13,9 @@ const
   MongoDBStore = require('connect-mongodb-session')(session),
 
   userRoutes = require('./routes/users.js'),
+  postRoutes = require('./routes/posts.js'),
+
+
   passportConfig = require('./config/passport.js')
 
   // Connection configuration.
@@ -67,8 +70,9 @@ app.get('/', (req, res) => {
   res.json({message: "This is the root route..."})
 })
 
-app.use('/',userRoutes)
 
+app.use('/',userRoutes)
+app.use('/posts',postRoutes)
 
 // server listening
 app.listen(PORT, (err)=>{
