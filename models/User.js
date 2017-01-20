@@ -1,6 +1,6 @@
 const
   mongoose = require("mongoose"),
-  bycrypt = require("bycrypt-nodejs"),
+  bycrypt = require("bcrypt-nodejs"),
   Schema = mongoose.Schema,
 
   // Build up the schema of the model
@@ -13,7 +13,7 @@ const
   })
 
 
-// Creates a hash with a SALT password encrypted
+// Creates a hash with a SALT encrypted password using bcrypt
 userSchema.methods.generateHash = function(password) {
   return bcrypt.hashSync(password,bycrypt.genSaltSync(10))
 }
