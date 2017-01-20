@@ -11,6 +11,7 @@ const
   userRouter.route('/home')
     .get((req, res) =>  {
       request.get("http://api.metro.net/agencies/lametro/routes/", (err,response,body) => {
+        var body = JSON.parse(body)
           console.log(body.items[0]);
           res.redirect('/')
       })
