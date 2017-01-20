@@ -21,13 +21,14 @@ passport.use('local-signup', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, (req, email, password, done) => {
-    User.findOne({'local.email': email}, (err, user) => {
+    User.findOne({'email': email}, (err, user) => {
         if(err) return done(err)
-        if(user) return done(null, false, req.flash('signupMessage', 'That email is taken.'))
+        if(user) return done(null, false, req.flash('signupMessage', 'Email already exist!'))
         var newUser = new User()
-         newUser.local.name = req.body.name
-        newUser.local.email = email
-        newUser.local.password = newUser.generateHash(password)
+         newUser.firstName = req.body.firstName
+         newUser.lastName = req.body.lastName
+        newUser.email = email
+        newUser.password = newUser.generateHash(password)
         newUser.save((err) => {
             if(err) throw err
             return done(null, newUser, null)
@@ -41,10 +42,10 @@ passport.use('local-login', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, (req, email, password, done) => {
-    User.findOne({'local.email': email}, (err, user) => {
-        if(err) return done(err)
-        if(!user) return done(null, false, req.flash('loginMessage', 'No user found...'))
-        if(!user.validPassword(password)) return done(null, false, req.flash('loginMessage', 'Wrong Password.'))
+    User.findOne({'email': email}, (err, user) => {
+        if(err) {console.log("error"); return done(err)}
+        if(!user) {console.log("No User Found"); return done(null, false, req.flash('loginMessage', 'No user found...'))}
+        if(!user.validPassword(password)) {console.log("email or password fail"); return done(null, false, req.flash('loginMessage', 'email or password not valid'))}
         return done(null, user)
     })
 }))

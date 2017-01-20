@@ -9,6 +9,7 @@ module.exports = {
   getAssociatedPosts
 }
 
+// Promise getMetroRoutes
 function getMetroRoutes() {
   return new Promise((resolve, reject) => {
     request.get(metroLinesUrl, (err, response, body) => {

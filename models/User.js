@@ -1,6 +1,6 @@
 const
   mongoose = require("mongoose"),
-  bycrypt = require("bcrypt-nodejs"),
+  bcrypt = require("bcrypt-nodejs"),
   Schema = mongoose.Schema,
 
   // Build up the schema of the model
@@ -9,17 +9,21 @@ const
     lastName:{type:String,require:true},
     email:{type:String, require:true, index:{unique:true}},
     // password will be encrypted as password_digest on DB with bycrypt-nodejs
-    password:{type:String,require:true}
+    password:{type:String,require:true},
+    posts: [{type:mongoose.Schema.Types.ObjectId, ref:"Post"}]
   })
 
+userSchema.pre("findOne", function () {
+  this.populate("posts")
+})
 
 // Creates a hash with a SALT encrypted password using bcrypt
 userSchema.methods.generateHash = function(password) {
-  return bcrypt.hashSync(password,bycrypt.genSaltSync(10))
+  return bcrypt.hashSync(password,bcrypt.genSaltSync(10))
 }
 
 // Validates the password with the one encrypted on DB.
-userSchema.methods.isValidPassword = function(password) {
+userSchema.methods.validPassword = function(password) {
   return bcrypt.compareSync(password,this.password)
 }
 

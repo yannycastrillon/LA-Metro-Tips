@@ -14,7 +14,9 @@ const
 
   userRoutes = require('./routes/users.js'),
   passportConfig = require('./config/passport.js'),
-  metro = require('./factories/metro.js')
+  metro = require('./factories/metro.js'),
+  postRoutes = require('./routes/posts.js'),
+
 
   // Connection configuration.
   PORT = process.env.PORT || 3000,
@@ -79,8 +81,9 @@ app.get('/routes/:id', (req, res) => {
     .catch((err) => console.log(err))
 })
 
-app.use('/',userRoutes)
 
+app.use('/',userRoutes)
+app.use('/posts',postRoutes)
 
 // server listening
 app.listen(PORT, (err)=>{
