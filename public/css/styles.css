@@ -1,0 +1,24 @@
+.scrollable-menu {
+    height: auto;
+    max-height: 300px;
+    overflow-x: hidden;
+    text-align: center;
+}
+
+.list-button {
+  position: absolute;
+  left: 40%;
+}
+
+.main-logo {
+  position: relative;
+  left: 20%
+}
+
+.welcome {
+  text-align: center;
+}
+
+body {
+  background-color: #dee0e5;
+}
