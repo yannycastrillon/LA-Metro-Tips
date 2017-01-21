@@ -19,8 +19,6 @@ userRouter.route('/login')
 
   }))
 
-
-
 //Signup route
 userRouter.route('/signup')
   .get((req, res) => res.render('signup',{message:req.flash('signupMessage')}))

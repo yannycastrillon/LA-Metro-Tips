@@ -41,6 +41,12 @@ const
   collection: 'sessions'
 });
 
+// currentUser:
+app.use((req, res, next) => {
+	app.locals.currentUser = req.user
+	app.locals.loggedIn = !!req.user
+  next()	
+})
 
 //ejs config
 app.set('view engine', 'ejs')
