@@ -1,67 +1,17 @@
 
-<div id="container">
-
-<div class="main-logo">
-  <img src="./images/logo-lametro.png"/>
-</div>
-
-<% if(loggedIn){ %>
-  <div class="welcome">
-    <h3>Welcome, <%= toolkit.uppercase(currentUser.firstName) + ' ' + toolkit.uppercase(currentUser.lastName) %></h3>
-  </div>
-<% } %>
-
-<div class="btn-group list-button">
-  <button type="button" class="btn btn-warning btn-lg dropdown-toggle" data-toggle="dropdown">Choose a Line <span class="caret"></span></button>
-  <ul class="dropdown-menu scrollable-menu" role="menu">
-    <% for (var i = 0; i < routes.length; i++) { %>
-    <li>
-      <a href="routes/<%= routes[i].id %>"><%= routes[i].display_name %></a>
-    </li>
-    <div class="dropdown-divider"></div>
-    <% } %>
-  </ul>
-</div>
-</div>
-=======
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">LA Metro Tips</a>
+<div id="container-fluid">
+  <div class="row">
+    <div class="main-logo col-xs-7">
+      <img src="./images/logo-lametro.png"/>
     </div>
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li class="active"><a href="#">About</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-    </ul>
-  </div>
-</nav>
-<h1 align="center">LA Metro Tips</h1>
-<style>
-  button {
-    background-color: #4286f4;
-    color: black;
-    border: 2px solid;
-    border-radius: 25px;
-    font-family: georgia;
-    font-weight: bold;
-  }
-</style>
-<h3 align="center">CHOOSE A LINE (API) <br><br><br>
-<button type="button">Create an Account</button> <br>
-<div class="navbar navbar-default navbar-fixed-bottom">
-  <div class="container">
-    <p class="navbar-text pull-left"> <small>©2017 - Powered by YJS</small>
-     <a href="x" target="_blank" ></a></p>
-     <a href="x" class="navbar-btn btn-danger btn pull-right">
-     <span class="glyphicon glyphicon"></span>Link(ROUTES?)</a>
-  </div>
-</div>
-<div class="">
-  <img src="http://i.imgur.com/ucpyVio.png"/>
-</div>
 
-
+    <div class="btn-group list-button col-xs-offset-3">
+      <button type="button" class="btn btn-warning btn-lg dropdown-toggle" data-toggle="dropdown">Choose a Line <span class="caret"></span></button>
+      <ul class="dropdown-menu scrollable-menu" role="menu">
+        <% routes.forEach((r)=> { %>
+          <li><a href="routes/<%= r.id %>"><%= r.display_name %></a></li>
+          <div class="dropdown-divider"></div>
+        <% }) %>
+      </ul>
+    </div>
+  </div>

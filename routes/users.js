@@ -14,7 +14,7 @@ userRouter.route('/login')
     res.render('login',{message:req.flash('loginMessage')})
   })
   .post(passport.authenticate('local-login',{
-    successRedirect:'/home', // Makes a new Request
+    successRedirect:'/', // Makes a new Request
     failureRedirect:'/login'
 
   }))
@@ -23,7 +23,7 @@ userRouter.route('/login')
 userRouter.route('/signup')
   .get((req, res) => res.render('signup',{message:req.flash('signupMessage')}))
   .post(passport.authenticate('local-signup',{
-    successRedirect:'/home',
+    successRedirect:'/',
     failureRedirect:'/signup'
   }))
 
@@ -31,7 +31,7 @@ userRouter.route('/signup')
 userRouter.get('/logout', (req, res) => {
   // Destroys the session, and redirect user back to the home page
   req.logout()
-  res.redirect('home')
+  res.redirect('/')
 })
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

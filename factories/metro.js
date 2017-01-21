@@ -5,7 +5,7 @@ const
   // Runs of the metro bus-routes from East, West, Noth, South
   metroLineRuns = "http://api.metro.net/agencies/lametro/routes/720/runs/",
   // Brings the stops of the bus-id
-  metroLineStop = "http://api.metro.net/agencies/lametro/routes/704/stops/"
+  metroLineStop = "http://api.metro.net/agencies/lametro/routes/720/stops/"
 
 module.exports = {
   getMetroRoutes,
