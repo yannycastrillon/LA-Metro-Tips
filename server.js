@@ -16,6 +16,7 @@ const
   passportConfig = require('./config/passport.js'),
   metro = require('./factories/metro.js'),
   postRoutes = require('./routes/posts.js'),
+  toolkit = require('./factories/toolkit.js')
 
 
   // Connection configuration.
@@ -33,6 +34,8 @@ app.use(cookieParser())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 app.use(flash())
+// makes the public folder available for css rendering
+app.use(express.static(__dirname + '/public'));
 
 // Store session information as a 'sessions' collection in Mongo
 const
@@ -61,6 +64,8 @@ app.use(passport.session())
 app.use((req, res, next) => {
     app.locals.currentUser = req.user // currentUser now available in ALL views
     app.locals.loggedIn = !!req.user // a boolean loggedIn now available in ALL views
+
+    app.locals.toolkit = toolkit
     next()
 })
 
@@ -76,7 +81,7 @@ app.get('/', (req, res) => {
 
 app.get('/routes/:id', (req, res) => {
   metro.getMetroRoute(req.params.id)
-    .then((route) => req.user ? getAssociatedPosts(route) : route)
+    .then((route) => req.user ? metro.getAssociatedPosts(route) : route)
     .then((data) => { res.json(data) })
     .catch((err) => console.log(err))
 })
