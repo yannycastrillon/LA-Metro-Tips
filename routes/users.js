@@ -7,25 +7,14 @@ const
   userRouter = express.Router()
 
 
-  // Home route
-  userRouter.route('/home')
-    .get((req, res) =>  {
-      request.get("http://api.metro.net/agencies/lametro/routes/", (err,response,body) => {
-        var body = JSON.parse(body)
-          console.log(body.items[0]);
-          res.redirect('/')
-      })
-    })
-
 
 // Login route
 userRouter.route('/login')
   .get((req, res) =>{
-    // res.json({message:'login'})
     res.render('login',{message:req.flash('loginMessage')})
   })
   .post(passport.authenticate('local-login',{
-    successRedirect:'/home/', // Makes a new Request
+    successRedirect:'/home', // Makes a new Request
     failureRedirect:'/login'
 
   }))
@@ -44,7 +33,7 @@ userRouter.route('/signup')
 userRouter.get('/logout', (req, res) => {
   // Destroys the session, and redirect user back to the home page
   req.logout()
-  res.redirect('home/')
+  res.redirect('home')
 })
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,34 @@
+<div class="panel panel-info">
+  <div class="panel-heading">
+      <div class="panel-title">Bus Details</div>
+      <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="loginlink" href="/">home</a></div>
+  </div>
+  <div class="panel-body" >
+    <label for="data-id" class="col-md-offset-1 col-md-3 control-label">Bus Number:</label>
+    <label id="data-id" class="col-md-8 control-label"><%= route.id%></label>
+
+    <label for="" class="col-md-offset-1 col-md-3 control-label">Route Name: </label>
+    <label for="" class="col-md-8 control-label"><%= route.display_name%></label>
+
+    <label for="" class="col-md-offset-1 col-md-3 control-label">Route Name: </label>
+    <label for="" class="col-md-8 control-label"><%= route.display_name%></label>
+
+    <label for="" class="col-md-offset-1 col-md-3 control-label">Route Name: </label>
+    <label for="" class="col-md-8 control-label"><%= route.display_name%></label>
+
+    <%= runs[0].direction_name%>
+    Route way: <%= runs[0].display_name%>
+
+    <%= runs[1].direction_name%>
+    Route way: <%= runs[1].display_name%>
+    <%= posts%>
+
+  </div>
+  <div class="panel-heading">
+    <div class="panel-title">Posts</div>
+      <form class="" action="routes/<%= route.id %>/posts" method="post">
+        <div style="float:right; font-size:85%; position:relative; top:-10px"><a href="#" href="#">New Post</a>
+      </form>
+    </div>
+  </div>
+</div>

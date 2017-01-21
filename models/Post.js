@@ -15,3 +15,5 @@ const
   })
 
 module.exports = mongoose.model("Post", postSchema)
+
+//Post.create(Object.assign({}, req.body, {bus_id: req.params.id, _author: req.user}))
