@@ -1,15 +1,16 @@
-<div class="">
-  <img src="http://i.imgur.com/ucpyVio.png"/>
-</div>
+<div id="container-fluid">
+  <div class="row">
+    <div class="main-logo col-xs-7">
+      <img src="./images/logo-lametro.png"/>
+    </div>
 
-<h1>Home Page View</h1>
-
-<% if(loggedIn){ %>
-  <div class="">
-    <h3>Welcome: <%=currentUser.firstName%> <%=currentUser.lastName%></h3>
+    <div class="btn-group list-button col-xs-offset-3">
+      <button type="button" class="btn btn-warning btn-lg dropdown-toggle" data-toggle="dropdown">Choose a Line <span class="caret"></span></button>
+      <ul class="dropdown-menu scrollable-menu" role="menu">
+        <% routes.forEach((r)=> { %>
+          <li><a href="routes/<%= r.id %>"><%= r.display_name %></a></li>
+          <div class="dropdown-divider"></div>
+        <% }) %>
+      </ul>
+    </div>
   </div>
-<% } %>
-
-<div class="">
-  <%= routes %>
-</div>
