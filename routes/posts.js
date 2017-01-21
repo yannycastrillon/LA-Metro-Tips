@@ -6,18 +6,19 @@ const
 postRouter.use(isLoggedIn)
 
 
-// ALL Posts 
-postRouter.route('/')
+// ALL Posts
+postRouter.route('/posts')
   .get((req,res)=>{
-    Post.find({}, (err,posts)=>{
-      res.render('posts/')
-    })
+      console.log("All post goes here");
+      res.json({message: "All Post go Here!!!"})
   })
 
-
 // post/:id
-postRouter.route('/:id')
+postRouter.route('/posts/:id')
   .get((req,res)=>{
+
+  })
+  .post((req,res)=>{
 
   })
 
