@@ -4,25 +4,143 @@
       <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="loginlink" href="/">home</a></div>
   </div>
   <div class="panel-body" >
-    <label for="data-id" class="col-md-offset-1 col-md-3 control-label">Bus Number:</label>
-    <label id="data-id" class="col-md-8 control-label"><%= route.id%></label>
+    <div class="row">
+      <label class="col-md-offset-1 col-md-3 control-label">Bus Number:</label>
+      <label class="col-md-8 control-label"><%= route.id%></label>
 
-    <label for="" class="col-md-offset-1 col-md-3 control-label">Route Name: </label>
-    <label for="" class="col-md-8 control-label"><%= route.display_name%></label>
+      <label class="col-md-offset-1 col-md-3 control-label">Route Name: </label>
+      <label class="col-md-8 control-label"><%= route.display_name%></label>
 
-    <label for="" class="col-md-offset-1 col-md-3 control-label">Route Name: </label>
-    <label for="" class="col-md-8 control-label"><%= route.display_name%></label>
 
-    <label for="" class="col-md-offset-1 col-md-3 control-label">Route Name: </label>
-    <label for="" class="col-md-8 control-label"><%= route.display_name%></label>
+      <label class="col-md-offset-1 col-md-3 control-label">Line Type ( Rapid or Local ): </label>
+      <label class  ="col-md-6 control-label" style="background:<%= route.bg_color%>; height:20px; width:10%;"></label>
+    </div>
+    <div id="post-list-container" class="row">
 
+    </div>
 
   </div>
   <div class="panel-heading">
     <div class="panel-title">Posts</div>
-      <form class="" action="routes/<%= route.id %>/posts" method="post">
-        <div style="float:right; font-size:85%; position:relative; top:-10px"><a href="#" href="#">New Post</a>
-      </form>
+    <div style="float:right; font-size:85%; position:relative; top:-10px"><a id="new-post" >New Post</a>
     </div>
   </div>
+  <div class="panel-body">
+    <form  action="/posts?bus_id=<%= route.id %>" method="post">
+      <div id="new-post-body"></div>
+    </form>
+  </div>
 </div>
+
+
+<script type="text/javascript">
+
+  $("#new-post").one("click",(ev)=>{
+    buildMainPostPanel();
+    getRouteSeqStops();
+  })
+  createPostList();
+  // Builds the actual post panel (Title, body, route id)
+  function buildMainPostPanel(){
+    // Create input fields for Post Form (title, body, routeId)
+    var $inpTitle = $("<input></input>",{class: "col-xs-offset-1 col-xs-7 control-form tooltip-right",placeholder:"Title Post",name:"title"})
+
+    var $inpBody = $("<textarea></textarea>",{class: "col-xs-offset-1 col-xs-7 control-form tooltip-right ", placeholder:"Body", name:"content", cols:"8", rows:"10"})
+
+    var $inpRoute= $("<input></input>",{class: "col-xs-offset-1 col-xs-7 control-form tooltip-right",placeholder:"Route",name:"bus_id", type:"text", }).prop("readonly",true)
+
+    // Build main post div
+    var $buildPostPanel = (
+      '<div id="title-group" class="row form-group"></div>'+
+      '<div id="body-group" class="row form-group"></div>'+
+      '<div id="route-group" class="row form-group input"></div>'
+    )
+
+    //append those divs to the new-post-body
+    $("#new-post-body").append($buildPostPanel)
+
+    // Append input tags to the Post form (Body-part)
+    $("#title-group").append($inpTitle.tooltip({title:"Title Post",placement:"right"}));
+    $("#body-group").append($inpBody.tooltip({title:"Content Post (150 characters max)", placement:"right"}));
+    $("#route-group").append($inpRoute.val("<%=route.id%>").tooltip({title:"Route Id", placement:"right"}));
+  }
+
+  // Builds detail Post panel
+  function buildDetailPostPanel(){
+    var $detailDiv =
+    $("<div class='panel panel-warning'>"+
+       "<div class='panel-heading panel-title'>Details"+
+         "<div style='float:right; margin-bottom:2px; margin-top: -6px; margin-right: 9px;'>"+
+         "<button class='btn btn-success' type='submit'>Create Post</button></div>"+
+       "</div>"+
+       "<div class='panel-body'>"+
+       "<div id='runs-group' class='row form-group radio'></div>"+
+       "<div id='stops-group' class='row form-group'></div>"+
+      "</div>"+
+     "</div>")
+     $("#new-post-body").append($detailDiv);
+
+     //Creation run direction and appending Radio Button (East, West, North, South)
+     var $runsRadioBut;
+     <% runs.forEach((r)=>{%>
+       $runsRadioBut = $(
+       "<div><input type='radio' name='dir_run'    value='<%=r.direction_name%>'><%=r.display_name%></input>"+
+       "</div>").addClass("col-xs-offset-1 col-xs-7")
+       $("#runs-group").append($runsRadioBut)
+     <% }) %>
+  }
+
+  // Create ajax to hit endpoint and get route-stops-in-sequence
+  function getRouteSeqStops(){
+    var reqConfSeqPath = {        url:"http://api.metro.net/agencies/lametro/routes/<%=route.id%>/sequence/",
+    method:"GET"
+    }
+    // AJAX call to endpoint
+    $.ajax(reqConfSeqPath).done((stops)=>{
+      var dropResult = "<div class='col-xs-offset-1'><h5>Post related near a Stop: </h5>"
+      var dropPicker = "<select name='stop_name'>";
+
+      // Create the Li of dropdown
+      stops.items.forEach((stop)=> {
+        var dropOpt = "<option value='"+stop.display_name+"'>"+stop.display_name+"</option>"
+        dropPicker += dropOpt;
+      })
+      dropResult += dropPicker+"</select></div>"
+
+      buildDetailPostPanel();
+
+      $("#stops-group").append($(dropResult))
+
+    })
+  }
+
+  function createPostList() {
+    var ul = $("<br><br><br><ul>")
+      $.ajax({method:"get", url:"/posts?bus_id=<%= route.id %>"}).done(function(data){
+        console.log(data)
+        data.forEach((post)=>{
+          var li = $("<li class='panel panel-success' style='margin-right: 300px;'>")
+          var h2 = $("<h2 class='panel-heading panel-title'>")
+          var h4 = $("<h4 style='margin-left: 20px;'>")
+          var p = $("<p style='margin-left: 10px;' class='text-muted'>")
+          var but = $("<button id='target_"+post._id+"' type='button' style='margin-right:10px;' class='pull-right'>Likes</button>").on("click", function() {
+            $("#output_"+post._id).text(function(i, val) { return val*1+1 });
+          })
+          var span = $("<span id='output_"+post._id+"' style='margin-right:10px;' class='pull-right''>0</span>")
+          h2.text(post.title)
+          li.append(h2)
+          h4.text(post.content)
+          li.append(h4)
+          p.text("Time: "+post.updatedAt+"  Near Stop: "+post.stop_name+ " ")
+          p.append(but)
+          p.append(span)
+          li.append(p)
+          ul.append(li)
+        })
+        $("#post-list-container").append(ul)
+        $('#target').click(function() {
+
+        });
+      })
+  }
+</script>
