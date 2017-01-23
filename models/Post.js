@@ -3,11 +3,13 @@ const
   Schema = mongoose.Schema,
 
   postSchema = new Schema({
-    title:{type:String, require:true},
-    content:{type:String,require:true},
-    thumbsUp:{type:Number},
-    bus_id:{type:Number},
-    _author:{type: mongoose.Schema.Types.ObjectId, ref: 'User'}
+    title:    {type:String,require:true},
+    content:  {type:String,require:true},
+    thumbsUp: {type:Number},
+    bus_id:   {type:Number},
+    dir_run:  {type:String},
+    stop_name:{type:String},
+    _author:  {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
   }, {timestamps: true})
 
   postSchema.pre('findOne', function() {

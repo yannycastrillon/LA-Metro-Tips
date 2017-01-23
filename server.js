@@ -75,24 +75,17 @@ app.use((req, res, next) => {
     next()
 })
 
+app.use('/routes/:id',postRoutes)
+app.use('/',userRoutes)
 
 // root route
 app.get('/', (req, res) => {
   // Gets all the routes
   metro.getMetroRoutes()
     .then((routes) => {
-      res.render('home', {routes})
+      res.render('home.ejs', {routes})
     })
 })
-
-// Home route
-// app.get('/home', (req, res) =>  {
-//     request.get("http://api.metro.net/agencies/lametro/routes/", (err,response,body) => {
-//       var body = JSON.parse(body)
-//         console.log(body.items[0]);
-//         res.redirect('/')
-//     })
-//   })
 
 // bus-line route
 app.get('/routes/:id', (req, res) => {
@@ -108,8 +101,7 @@ app.get('/routes/:id', (req, res) => {
 })
 
 
-app.use('/routes/:id',postRoutes)
-app.use('/',userRoutes)
+
 
 // server listening
 app.listen(PORT, (err)=>{

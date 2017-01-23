@@ -9,17 +9,20 @@ postRouter.use(isLoggedIn)
 // ALL Posts
 postRouter.route('/posts')
   .get((req,res)=>{
-      console.log("All post goes here");
-      res.json({message: "All Post go Here!!!"})
-  })
-
-// post/:id
-postRouter.route('/posts/:id')
-  .get((req,res)=>{
-
+    Post.find({},(err,posts)=>{
+      res.render("/routes/"+req.body.bus_id+"/posts",{posts})
+    })
   })
   .post((req,res)=>{
-
+    console.log("new Post here");
+    var newPost = new Post(req.body)
+    newPost._author = req.user
+    newPost.save((err,post)=>{
+      console.log("User save with posts");
+      req.user.posts.push(post)
+      req.user.save()
+      res.redirect("/routes/"+req.body.bus_id)
+    })
   })
 
 
