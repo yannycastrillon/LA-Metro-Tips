@@ -6,6 +6,8 @@ const
   request = require('request'),
   userRouter = express.Router()
 
+  userRouter.route('/contact')
+    .get((req, res) => res.render('contact',{message:req.flash('contactForm')}))
 
 
 // Login route
