@@ -7,10 +7,10 @@ postRouter.use(isLoggedIn)
 
 
 // ALL Posts
-postRouter.route('/posts')
+postRouter.route('/') // 'route/:id/posts'
   .get((req,res)=>{
-    Post.find({},(err,posts)=>{
-      res.render("/routes/"+req.body.bus_id+"/posts",{posts})
+    Post.find({bus_id: req.query.bus_id},(err,posts)=>{
+      res.json(posts)
     })
   })
   .post((req,res)=>{

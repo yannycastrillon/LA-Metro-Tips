@@ -11,14 +11,10 @@
       <label class="col-md-offset-1 col-md-3 control-label">Route Name: </label>
       <label class="col-md-8 control-label"><%= route.display_name%></label>
 
-      <label class="col-md-offset-1 col-md-3 control-label">Route Color: </label>
+      <label class="col-md-offset-1 col-md-3 control-label">Line Type ( Rapid or Local ): </label>
       <label class  ="col-md-6 control-label" style="background:<%= route.bg_color%>; height:20px; width:10%;"></label>
     </div>
-    <div class="row">
-      <ul>
-        <%= posts%>
-
-      </ul>
+    <div id="post-list-container" class="row">
 
     </div>
 
@@ -29,10 +25,9 @@
     </div>
   </div>
   <div class="panel-body">
-    <form  action="/routes/<%= route.id %>/posts" method="post">
+    <form  action="/posts?bus_id=<%= route.id %>" method="post">
       <div id="new-post-body"></div>
     </form>
-
   </div>
 </div>
 
@@ -43,7 +38,7 @@
     buildMainPostPanel();
     getRouteSeqStops();
   })
-
+  createPostList();
   // Builds the actual post panel (Title, body, route id)
   function buildMainPostPanel(){
     // Create input fields for Post Form (title, body, routeId)
@@ -118,4 +113,33 @@
     })
   }
 
+  function createPostList() {
+    var ul = $("<br><br><br><ul>")
+      $.ajax({method:"get", url:"/posts?bus_id=<%= route.id %>"}).done(function(data){
+        console.log(data)
+        data.forEach((post)=>{
+          var li = $("<li class='panel panel-success' style='margin-right: 300px;'>")
+          var h2 = $("<h2 class='panel-heading panel-title'>")
+          var h4 = $("<h4 style='margin-left: 20px;'>")
+          var p = $("<p style='margin-left: 10px;' class='text-muted'>")
+          var but = $("<button id='target_"+post._id+"' type='button' style='margin-right:10px;' class='pull-right'>Likes</button>").on("click", function() {
+            $("#output_"+post._id).text(function(i, val) { return val*1+1 });
+          })
+          var span = $("<span id='output_"+post._id+"' style='margin-right:10px;' class='pull-right''>0</span>")
+          h2.text(post.title)
+          li.append(h2)
+          h4.text(post.content)
+          li.append(h4)
+          p.text("Time: "+post.updatedAt+"  Near Stop: "+post.stop_name+ " ")
+          p.append(but)
+          p.append(span)
+          li.append(p)
+          ul.append(li)
+        })
+        $("#post-list-container").append(ul)
+        $('#target').click(function() {
+
+        });
+      })
+  }
 </script>

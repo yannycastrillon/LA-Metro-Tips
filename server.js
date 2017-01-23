@@ -75,7 +75,7 @@ app.use((req, res, next) => {
     next()
 })
 
-app.use('/routes/:id',postRoutes)
+app.use('/posts',postRoutes)
 app.use('/',userRoutes)
 
 // root route
