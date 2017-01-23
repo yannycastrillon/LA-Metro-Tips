@@ -23,6 +23,12 @@ body {
   background-color: #dee0e5;
 }
 
+.img-circle {
+  width: 25%;
+  display: inline-block;
+  max-height: 275px;
+}
+
 #myCarousel {
   z-index: -1
 }
@@ -30,3 +36,4 @@ body {
 .carousel-inner > .item > img {
     margin: 0 auto;
 }
+
