@@ -9,6 +9,9 @@ const
   userRouter.route('/contact')
     .get((req, res) => res.render('contact',{message:req.flash('contactForm')}))
 
+    userRouter.route('/about')
+      .get((req, res) => res.render('about',{message:req.flash('aboutPage')}))
+
 
 // Login route
 userRouter.route('/login')

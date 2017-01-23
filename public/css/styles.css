@@ -23,6 +23,11 @@ body {
   background-color: #dee0e5;
 }
 
+.img-circle {
+  width: 25%;
+  display: inline-block;
+  max-height: 275px;
+}
 /*button {
   background-color: #4286f4;
   color: black;
