@@ -15,32 +15,30 @@
       <label class  ="col-md-6 control-label" style="background:<%= route.bg_color%>; height:20px; width:10%;"></label>
     </div>
     <div class="row">
+      <ul>
+        <%= posts%>
 
-      <%= route%>
-      <%= runs[0].direction_name%>
-      Route way: <%= runs[0].display_name%>
-
-      <%= runs[1].direction_name%>
-      Route way: <%= runs[1].display_name%>
-      <%= posts%>
+      </ul>
 
     </div>
 
   </div>
   <div class="panel-heading">
     <div class="panel-title">Posts</div>
-    <div style="float:right; font-size:85%; position:relative; top:-10px"><a id="new-post" href="#">New Post</a>
+    <div style="float:right; font-size:85%; position:relative; top:-10px"><a id="new-post" >New Post</a>
     </div>
   </div>
   <div class="panel-body">
-    <form  action="routes/<%= route.id %>/posts" method="post">
-      <div id="new-post-body">
-      </div>
+    <form  action="/routes/<%= route.id %>/posts" method="post">
+      <div id="new-post-body"></div>
     </form>
 
   </div>
 </div>
+
+
 <script type="text/javascript">
+
   $("#new-post").one("click",(ev)=>{
     buildMainPostPanel();
     getRouteSeqStops();
@@ -74,8 +72,11 @@
   // Builds detail Post panel
   function buildDetailPostPanel(){
     var $detailDiv =
-    $("<div class='panel panel-warning '>"+
-       "<div class='panel-heading panel-title'>Details</div>"+
+    $("<div class='panel panel-warning'>"+
+       "<div class='panel-heading panel-title'>Details"+
+         "<div style='float:right; margin-bottom:2px; margin-top: -6px; margin-right: 9px;'>"+
+         "<button class='btn btn-success' type='submit'>Create Post</button></div>"+
+       "</div>"+
        "<div class='panel-body'>"+
        "<div id='runs-group' class='row form-group radio'></div>"+
        "<div id='stops-group' class='row form-group'></div>"+
@@ -87,7 +88,7 @@
      var $runsRadioBut;
      <% runs.forEach((r)=>{%>
        $runsRadioBut = $(
-       "<div><input type='radio' name='direction_name'    value='<%=r.direction_name%>'><%=r.display_name%></input>"+
+       "<div><input type='radio' name='dir_run'    value='<%=r.direction_name%>'><%=r.display_name%></input>"+
        "</div>").addClass("col-xs-offset-1 col-xs-7")
        $("#runs-group").append($runsRadioBut)
      <% }) %>
@@ -101,11 +102,11 @@
     // AJAX call to endpoint
     $.ajax(reqConfSeqPath).done((stops)=>{
       var dropResult = "<div class='col-xs-offset-1'><h5>Post related near a Stop: </h5>"
-      var dropPicker = "<select>";
+      var dropPicker = "<select name='stop_name'>";
 
       // Create the Li of dropdown
       stops.items.forEach((stop)=> {
-        var dropOpt = "<option>"+stop.display_name+"</option>"
+        var dropOpt = "<option value='"+stop.display_name+"'>"+stop.display_name+"</option>"
         dropPicker += dropOpt;
       })
       dropResult += dropPicker+"</select></div>"
