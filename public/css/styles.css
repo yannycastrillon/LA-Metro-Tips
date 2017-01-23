@@ -28,11 +28,12 @@ body {
   display: inline-block;
   max-height: 275px;
 }
-/*button {
-  background-color: #4286f4;
-  color: black;
-  border: 2px solid;
-  border-radius: 25px;
-  font-family: georgia;
-  font-weight: bold;
-}*/
+
+#myCarousel {
+  z-index: -1
+}
+
+.carousel-inner > .item > img {
+    margin: 0 auto;
+}
+
