@@ -13,15 +13,6 @@ postRouter.route('/posts')
       res.json({message: "All Post go Here!!!"})
   })
 
-// post/:id
-postRouter.route('/posts/:id')
-  .get((req,res)=>{
-
-  })
-  .post((req,res)=>{
-
-  })
-
 
 
 
