@@ -11,6 +11,7 @@ const
   passport = require('passport'),
   session = require('express-session'),
   MongoDBStore = require('connect-mongodb-session')(session),
+  dotenv = require("dotenv").load({silent:true}),
 
   userRoutes = require('./routes/users.js'),
   passportConfig = require('./config/passport.js'),
