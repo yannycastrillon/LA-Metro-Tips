@@ -97,7 +97,7 @@ app.get('/routes/:id', (req, res) => {
     // User must be log in to be able to see the associate posts
     .then((incomingData) => req.user ? metro.getAssociatedPosts(req.params.id, incomingData) : incomingData)
     .then((compiledData) => {
-      console.log(compiledData)
+      console.log("CompileDATAAAA: "+compiledData)
       res.render('bus-details', compiledData)
     })
     .catch((err) => console.log(err))
