@@ -1,11 +1,11 @@
 const
   request = require('request'),
   Post = require('../models/Post.js'),
-  metroLinesUrl = 'http://api.metro.net/agencies/lametro/routes/',
+  metroLinesUrl = 'https://api.metro.net/agencies/lametro/routes/',
   // Runs of the metro bus-routes from East, West, Noth, South
-  metroLineRuns = "http://api.metro.net/agencies/lametro/routes/720/runs/",
+  metroLineRuns = "https://api.metro.net/agencies/lametro/routes/720/runs/",
   // Brings the stops of the bus-id
-  metroLineStop = "http://api.metro.net/agencies/lametro/routes/720/stops/"
+  metroLineStop = "https://api.metro.net/agencies/lametro/routes/720/stops/"
 
 module.exports = {
   getMetroRoutes,
