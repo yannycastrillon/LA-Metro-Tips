@@ -92,7 +92,9 @@ app.get('/', (req, res) => {
 app.get('/routes/:id', (req, res) => {
   // Show a route
   metro.getMetroRoute(req.params.id)
-    .then((route) => req.user ? metro.getMetroRuns(req.params.id, route) : route)
+    // Shows de bus details without user being log in.
+    .then((route) => metro.getMetroRuns(req.params.id, route))
+    // User must be log in to be able to see the associate posts
     .then((incomingData) => req.user ? metro.getAssociatedPosts(req.params.id, incomingData) : incomingData)
     .then((compiledData) => {
       console.log(compiledData)

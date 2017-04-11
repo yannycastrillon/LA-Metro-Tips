@@ -22,7 +22,7 @@
   </div>
   <div class="panel-heading">
     <div class="panel-title">Posts</div>
-    <div style="float:right; font-size:85%; position:relative; top:-10px"><a id="new-post" >New Post</a>
+    <div style="float:right; font-size:85%; position:relative; top:-10px; cursor: pointer;"><a id="new-post" >New Post</a>
     </div>
   </div>
   <div class="panel-body">
@@ -68,19 +68,21 @@
   // Builds detail Post panel
   function buildDetailPostPanel(){
     var $detailDiv =
-    $("<div class='panel panel-warning'>"+
+    $("<div class='panel panel-default'>"+
        "<div class='panel-heading panel-title'>Details"+
          "<div style='float:right; margin-bottom:2px; margin-top: -6px; margin-right: 9px;'>"+
          "<button class='btn btn-success' type='submit'>Create Post</button></div>"+
        "</div>"+
        "<div class='panel-body'>"+
-       "<div id='runs-group' class='row form-group radio'></div>"+
-       "<div id='stops-group' class='row form-group'></div>"+
-      "</div>"+
+        "<div id='runs-group' class='row form-group radio' style='border:thin solid #f4f4f4;'>"+ "</div>"+
+        "<div id='stops-group' class='row form-group'></div>"+
+       "</div>"+
      "</div>")
      $("#new-post-body").append($detailDiv);
 
      //Creation run direction and appending Radio Button (East, West, North, South)
+     var $runsTitle = $("<h5 style='font-size:14px;'>Select Direction: </h5>").addClass("col-xs-offset-1 col-xs-7")
+     $("#runs-group").append($runsTitle)
      var $runsRadioBut;
      <% runs.forEach((r)=>{%>
        $runsRadioBut = $(
@@ -97,7 +99,7 @@
     }
     // AJAX call to endpoint
     $.ajax(reqConfSeqPath).done((stops)=>{
-      var dropResult = "<div class='col-xs-offset-1'><h5>Post related near a Stop: </h5>"
+      var dropResult = "<div class='col-xs-offset-1 col-xs-7'><h5>Select specific Stop: </h5>"
       var dropPicker = "<select name='stop_name'>";
 
       // Create the Li of dropdown
@@ -124,6 +126,8 @@
           var h4 = $("<h4 style='margin-left: 20px;'>")
           var p = $("<p style='margin-left: 10px;' class='text-muted'>")
           var but = $("<button id='target_"+post._id+"' type='button' style='margin-right:10px;' class='pull-right'>Likes</button>").on("click", function() {
+            // save database the likes!!! - show them when reload the page - only clicks onces.
+            // TODO
             $("#output_"+post._id).text(function(i, val) { return val*1+1 });
           })
           var span = $("<span id='output_"+post._id+"' style='margin-right:10px;' class='pull-right''>0</span>")
@@ -131,7 +135,8 @@
           li.append(h2)
           h4.text(post.content)
           li.append(h4)
-          p.text("Time: "+post.updatedAt+"  Near Stop: "+post.stop_name+ " ")
+          console.log(post.updatedAt)
+          p.text("Time: "+timeSince(new Date(post.updatedAt) )+"    Near Stop: "+post.stop_name+ " ")
           p.append(but)
           p.append(span)
           li.append(p)
@@ -142,5 +147,24 @@
 
         });
       })
+  }
+
+  // Converts date into seconds ago.
+  function timeSince(date) {
+
+    var seconds = Math.floor((new Date() - date) / 1000);
+
+    var interval = Math.floor(seconds / 31536000);
+
+    if (interval > 1) return interval + " years ago";
+    interval = Math.floor(seconds / 2592000);
+    if (interval > 1) return interval + " months ago";
+    interval = Math.floor(seconds / 86400);
+    if (interval > 1) return interval + " days ago";
+    interval = Math.floor(seconds / 3600);
+    if (interval > 1) return interval + " hours ago";
+    interval = Math.floor(seconds / 60);
+    if (interval > 1) return interval + " minutes ago";
+    return Math.floor(seconds) + " seconds ago";
   }
 </script>

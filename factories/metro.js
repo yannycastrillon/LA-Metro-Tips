@@ -14,6 +14,19 @@ module.exports = {
   getMetroRuns
 }
 
+// Promise getMetroRoutes
+function getMetroRoutes() {
+  return new Promise((resolve, reject) => {
+    request.get(metroLinesUrl, (err, response, body) => {
+      if(err) { reject(err) }
+      else {
+        var routes = JSON.parse(body).items
+        resolve(routes)
+      }
+    })
+  })
+}
+
 // Promise to get all the runs made by a bus
 function getMetroRuns(id, incomingData){
   return new Promise((resolve, reject)=>{
@@ -23,20 +36,6 @@ function getMetroRuns(id, incomingData){
         var runs = JSON.parse(body).items
         console.log(JSON.parse(body));
         resolve(Object.assign({}, incomingData, {runs}))
-      }
-    })
-  })
-}
-
-
-// Promise getMetroRoutes
-function getMetroRoutes() {
-  return new Promise((resolve, reject) => {
-    request.get(metroLinesUrl, (err, response, body) => {
-      if(err) { reject(err) }
-      else {
-        var routes = JSON.parse(body).items
-        resolve(routes)
       }
     })
   })
